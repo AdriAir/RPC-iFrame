@@ -1,0 +1,31 @@
+{
+    "name": "iframeconnector",
+    "version": "0.0.1",
+    "description": "Modern JS/TS library for RPC-style communication between parent and iframe",
+    "license": "MIT",
+    "main": "dist/index.cjs",
+    "module": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "type": "module",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsup src/index.ts --format esm,cjs --dts",
+        "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+        "typecheck": "tsc --noEmit",
+        "clean": "rm -rf dist"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/AdriAir/iFrameConnector.git"
+    },
+    "bugs": {
+        "url": "https://github.com/AdriAir/iFrameConnector/issues"
+    },
+    "homepage": "https://github.com/AdriAir/iFrameConnector#readme",
+    "devDependencies": {
+        "tsup": "^8.5.1",
+        "typescript": "^5.9.3"
+    }
+}
