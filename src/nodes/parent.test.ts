@@ -202,10 +202,10 @@ describe("parent.ts", () => {
 
     describe("remote proxy", () => {
         it("should call remote methods and return results", async () => {
-            interface TestApi {
+            type TestApi = {
                 greet(name: string): Promise<string>;
                 add(a: number, b: number): Promise<number>;
-            }
+            };
 
             const connectPromise = IframeConnection.connect<TestApi>(iframe, {
                 targetOrigin: "https://child.example.com",
@@ -245,9 +245,9 @@ describe("parent.ts", () => {
         });
 
         it("should handle errors from remote methods", async () => {
-            interface TestApi {
+            type TestApi = {
                 failing(): Promise<void>;
-            }
+            };
 
             const connectPromise = IframeConnection.connect<TestApi>(iframe, {
                 targetOrigin: "https://child.example.com",
@@ -282,9 +282,9 @@ describe("parent.ts", () => {
         });
 
         it("should timeout if remote method does not respond", async () => {
-            interface TestApi {
+            type TestApi = {
                 slow(): Promise<void>;
-            }
+            };
 
             const connectPromise = IframeConnection.connect<TestApi>(iframe, {
                 targetOrigin: "https://child.example.com",
@@ -312,9 +312,9 @@ describe("parent.ts", () => {
         });
 
         it("should handle multiple concurrent calls", async () => {
-            interface TestApi {
+            type TestApi = {
                 echo(value: string): Promise<string>;
-            }
+            };
 
             const connectPromise = IframeConnection.connect<TestApi>(iframe, {
                 targetOrigin: "https://child.example.com",
@@ -359,9 +359,9 @@ describe("parent.ts", () => {
 
     describe("destroy", () => {
         it("should reject pending calls when destroyed", async () => {
-            interface TestApi {
+            type TestApi = {
                 test(): Promise<void>;
-            }
+            };
 
             const connectPromise = IframeConnection.connect<TestApi>(iframe, {
                 targetOrigin: "https://child.example.com",

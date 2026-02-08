@@ -31,20 +31,28 @@ describe("child.ts", () => {
         messageListeners = [];
 
         // Mock window.addEventListener and removeEventListener
-        vi.spyOn(window, "addEventListener").mockImplementation((type, listener) => {
-            if (type === "message") {
-                messageListeners.push(listener as (event: MessageEvent) => void);
-            }
-        });
-
-        vi.spyOn(window, "removeEventListener").mockImplementation((type, listener) => {
-            if (type === "message") {
-                const index = messageListeners.indexOf(listener as (event: MessageEvent) => void);
-                if (index > -1) {
-                    messageListeners.splice(index, 1);
+        vi.spyOn(window, "addEventListener").mockImplementation(
+            (type, listener) => {
+                if (type === "message") {
+                    messageListeners.push(
+                        listener as (event: MessageEvent) => void,
+                    );
                 }
-            }
-        });
+            },
+        );
+
+        vi.spyOn(window, "removeEventListener").mockImplementation(
+            (type, listener) => {
+                if (type === "message") {
+                    const index = messageListeners.indexOf(
+                        listener as (event: MessageEvent) => void,
+                    );
+                    if (index > -1) {
+                        messageListeners.splice(index, 1);
+                    }
+                }
+            },
+        );
     });
 
     afterEach(() => {
@@ -55,7 +63,10 @@ describe("child.ts", () => {
     /**
      * Helper to simulate receiving a message from parent
      */
-    function simulateParentMessage(data: unknown, origin = "https://parent.example.com") {
+    function simulateParentMessage(
+        data: unknown,
+        origin = "https://parent.example.com",
+    ) {
         const event = new MessageEvent("message", { data, origin });
         messageListeners.forEach((listener) => listener(event));
     }
@@ -83,7 +94,7 @@ describe("child.ts", () => {
                     type: "handshake-response",
                     nonce,
                 },
-                "https://parent.example.com"
+                "https://parent.example.com",
             );
 
             handle.destroy();
@@ -118,7 +129,7 @@ describe("child.ts", () => {
                     id: requestId,
                     result: 8,
                 },
-                "https://parent.example.com"
+                "https://parent.example.com",
             );
 
             handle.destroy();
@@ -149,7 +160,7 @@ describe("child.ts", () => {
                     id: requestId,
                     error: 'Method "nonExistent" is not exposed.',
                 },
-                "https://parent.example.com"
+                "https://parent.example.com",
             );
 
             handle.destroy();
@@ -181,7 +192,7 @@ describe("child.ts", () => {
                     id: requestId,
                     error: '"notAFunction" is not a function.',
                 },
-                "https://parent.example.com"
+                "https://parent.example.com",
             );
 
             handle.destroy();
@@ -212,7 +223,7 @@ describe("child.ts", () => {
                     id: requestId,
                     error: "Intentional error",
                 },
-                "https://parent.example.com"
+                "https://parent.example.com",
             );
 
             handle.destroy();
@@ -265,7 +276,7 @@ describe("child.ts", () => {
                     id: requestId,
                     result: "ok",
                 },
-                "*"
+                "*",
             );
 
             handle.destroy();
@@ -299,9 +310,9 @@ describe("child.ts", () => {
                 await new Promise((resolve) => setTimeout(resolve, 10));
 
                 // Should return error, not execute
-                const errorCall = (mockParentWindow.postMessage as any).mock.calls.find(
-                    (call: any) => call[0].id === requestId
-                );
+                const errorCall = (
+                    mockParentWindow.postMessage as any
+                ).mock.calls.find((call: any) => call[0].id === requestId);
 
                 expect(errorCall).toBeDefined();
                 expect(errorCall[0].type).toBe("error");
@@ -313,7 +324,11 @@ describe("child.ts", () => {
 
         it("should handle methods with various argument types", async () => {
             const api = {
-                async processData(obj: { name: string }, arr: number[], flag: boolean) {
+                async processData(
+                    obj: { name: string },
+                    arr: number[],
+                    flag: boolean,
+                ) {
                     return { obj, arr, flag };
                 },
             };
@@ -341,7 +356,7 @@ describe("child.ts", () => {
                         flag: true,
                     },
                 },
-                "https://parent.example.com"
+                "https://parent.example.com",
             );
 
             handle.destroy();
@@ -374,7 +389,7 @@ describe("child.ts", () => {
                     id: requestId,
                     result: "test",
                 },
-                "https://parent.example.com"
+                "https://parent.example.com",
             );
 
             handle.destroy();
