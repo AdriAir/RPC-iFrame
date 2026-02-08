@@ -58,17 +58,17 @@
  */
 
 // Parent API
-export { connectIframe, IframeConnection } from './parent';
-export type { Connection } from './parent';
+export { connectIframe, IframeConnection } from "./nodes/parent";
+export type { Connection } from "./nodes/parent";
 
 // Child API
-export { expose, IframeExposed } from './child';
-export type { ExposeHandle } from './child';
+export { expose, IframeExposed } from "./nodes/child";
+export type { ExposeHandle } from "./nodes/child";
 
 // Public types
 export type {
-  ApiMethods,
-  RemoteApi,
-  ConnectOptions,
-  ExposeOptions,
-} from './core/types';
+    ApiMethods,
+    RemoteApi,
+    ConnectOptions,
+    ExposeOptions,
+} from "./core/types";

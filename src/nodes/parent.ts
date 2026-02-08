@@ -28,9 +28,9 @@ import {
     createRequest,
     generateId,
     type ProtocolMessage,
-} from "./core/protocol";
-import { Transport } from "./core/transport";
-import type { ApiMethods, ConnectOptions, RemoteApi } from "./core/types";
+} from "../core/protocol";
+import { Transport } from "../core/transport";
+import type { ApiMethods, ConnectOptions, RemoteApi } from "../core/types";
 
 // ---------------------------------------------------------------------------
 // Public types
@@ -93,9 +93,11 @@ export class IframeConnection<T extends ApiMethods> implements Connection<T> {
         this.remote = this.createProxy();
 
         // Subscribe to post-handshake messages (responses & errors).
-        this.unsubscribe = this.transport.onMessage((message: ProtocolMessage) => {
-            this.handleMessage(message);
-        });
+        this.unsubscribe = this.transport.onMessage(
+            (message: ProtocolMessage) => {
+                this.handleMessage(message);
+            },
+        );
     }
 
     // ------------------------------------------------------------------
@@ -150,18 +152,22 @@ export class IframeConnection<T extends ApiMethods> implements Connection<T> {
 
             // --- Handshake listener ------------------------------------------
 
-            const unsubscribe = transport.onMessage((message: ProtocolMessage) => {
-                if (
-                    message.type === "handshake-response" &&
-                    message.nonce === nonce &&
-                    !handshakeComplete
-                ) {
-                    handshakeComplete = true;
-                    clearTimeout(handshakeTimer);
-                    unsubscribe(); // Handshake phase done — remove this listener.
-                    resolve(new IframeConnection<T>(transport, callTimeout));
-                }
-            });
+            const unsubscribe = transport.onMessage(
+                (message: ProtocolMessage) => {
+                    if (
+                        message.type === "handshake-response" &&
+                        message.nonce === nonce &&
+                        !handshakeComplete
+                    ) {
+                        handshakeComplete = true;
+                        clearTimeout(handshakeTimer);
+                        unsubscribe(); // Handshake phase done — remove this listener.
+                        resolve(
+                            new IframeConnection<T>(transport, callTimeout),
+                        );
+                    }
+                },
+            );
 
             // --- Initiate handshake ------------------------------------------
 

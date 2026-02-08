@@ -32,7 +32,7 @@ export type ApiMethods = Record<string, (...args: any[]) => Promise<unknown>>;
  * and autocompletion when calling methods through the proxy.
  */
 export type RemoteApi<T extends ApiMethods> = {
-  [K in keyof T]: T[K];
+    [K in keyof T]: T[K];
 };
 
 // ---------------------------------------------------------------------------
@@ -41,26 +41,26 @@ export type RemoteApi<T extends ApiMethods> = {
 
 /** Options for the parent when connecting to a child iframe. */
 export interface ConnectOptions {
-  /**
-   * Expected origin of the child iframe (e.g. 'https://child.example.com').
-   * Messages from any other origin are silently discarded.
-   * Use '*' to accept any origin (not recommended for production).
-   */
-  targetOrigin: string;
+    /**
+     * Expected origin of the child iframe (e.g. 'https://child.example.com').
+     * Messages from any other origin are silently discarded.
+     * Use '*' to accept any origin (not recommended for production).
+     */
+    targetOrigin: string;
 
-  /** Max wait time (ms) for the handshake to complete. @default 5000 */
-  handshakeTimeout?: number;
+    /** Max wait time (ms) for the handshake to complete. @default 5000 */
+    handshakeTimeout?: number;
 
-  /** Max wait time (ms) for each individual RPC call. @default 10000 */
-  callTimeout?: number;
+    /** Max wait time (ms) for each individual RPC call. @default 10000 */
+    callTimeout?: number;
 }
 
 /** Options for the child when exposing its API. */
 export interface ExposeOptions {
-  /**
-   * Allowed parent origin (e.g. 'https://parent.example.com').
-   * Requests from any other origin are silently ignored.
-   * Use '*' to accept any origin (not recommended for production).
-   */
-  allowedOrigin: string;
+    /**
+     * Allowed parent origin (e.g. 'https://parent.example.com').
+     * Requests from any other origin are silently ignored.
+     * Use '*' to accept any origin (not recommended for production).
+     */
+    allowedOrigin: string;
 }
