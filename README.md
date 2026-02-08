@@ -1,4 +1,4 @@
-# iFrameConnector
+# iFrame-Connector
 
 Modern TypeScript library for type-safe, secure communication between web applications and iFrames using RPC (Remote Procedure Call).
 
@@ -21,15 +21,15 @@ Modern TypeScript library for type-safe, secure communication between web applic
 ## 📦 Installation
 
 ```bash
-npm install iframeconnector
+npm install iframe-connector
 ```
 
 ```bash
-yarn add iframeconnector
+yarn add iframe-connector
 ```
 
 ```bash
-pnpm add iframeconnector
+pnpm add iframe-connector
 ```
 
 ---
@@ -39,7 +39,7 @@ pnpm add iframeconnector
 ### Parent Page (Host Application)
 
 ```typescript
-import { connectIframe } from 'iframeconnector';
+import { connectIframe } from 'iframe-connector';
 
 // Define the API shape that the child iframe will expose
 interface ChildAPI {
@@ -68,7 +68,7 @@ destroy();
 ### Child Page (Inside the iFrame)
 
 ```typescript
-import { expose } from 'iframeconnector';
+import { expose } from 'iframe-connector';
 
 // Implement the API that the parent can call
 const api = {
@@ -97,7 +97,7 @@ This is the recommended approach for most use cases. It's straightforward and fa
 #### Parent Side (Functional)
 
 ```typescript
-import { connectIframe } from 'iframeconnector';
+import { connectIframe } from 'iframe-connector';
 
 interface ChildAPI {
   getUserData(userId: string): Promise<{ name: string; email: string }>;
@@ -123,7 +123,7 @@ connection.destroy();
 #### Child Side (Functional)
 
 ```typescript
-import { expose } from 'iframeconnector';
+import { expose } from 'iframe-connector';
 
 const api = {
   async getUserData(userId: string) {
@@ -154,7 +154,7 @@ For applications that prefer OOP patterns or need more explicit lifecycle manage
 #### Parent Side (OOP)
 
 ```typescript
-import { IframeConnection } from 'iframeconnector';
+import { IframeConnection } from 'iframe-connector';
 
 interface ChildAPI {
   calculate(expression: string): Promise<number>;
@@ -175,7 +175,7 @@ conn.destroy();
 #### Child Side (OOP)
 
 ```typescript
-import { IframeExposed } from 'iframeconnector';
+import { IframeExposed } from 'iframe-connector';
 
 class CalculatorAPI {
   async calculate(expression: string): Promise<number> {
@@ -303,17 +303,17 @@ RPC abstracts the complexity of `postMessage`:
 
 ### Parent Options (`ConnectOptions`)
 
-| Option             | Type     | Default      | Description                                                                                                                        |
-| ------------------ | -------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Option             | Type     | Default      | Description                                                                                                                         |
+| ------------------ | -------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
 | `targetOrigin`     | `string` | **Required** | Expected origin of the child iframe (e.g., `'https://child.com'`). Use `'*'` to accept any origin (not recommended for production). |
-| `handshakeTimeout` | `number` | `5000`       | Maximum time (ms) to wait for the handshake to complete.                                                                          |
-| `callTimeout`      | `number` | `10000`      | Maximum time (ms) to wait for each RPC call to return.                                                                            |
+| `handshakeTimeout` | `number` | `5000`       | Maximum time (ms) to wait for the handshake to complete.                                                                            |
+| `callTimeout`      | `number` | `10000`      | Maximum time (ms) to wait for each RPC call to return.                                                                              |
 
 ### Child Options (`ExposeOptions`)
 
-| Option           | Type     | Default      | Description                                                                                                                 |
-| ---------------- | -------- | ------------ | --------------------------------------------------------------------------------------------------------------------------- |
-| `allowedOrigin`  | `string` | **Required** | Origin of the parent that's allowed to call methods (e.g., `'https://parent.com'`). Use `'*'` to accept any origin (not recommended). |
+| Option          | Type     | Default      | Description                                                                                                                           |
+| --------------- | -------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `allowedOrigin` | `string` | **Required** | Origin of the parent that's allowed to call methods (e.g., `'https://parent.com'`). Use `'*'` to accept any origin (not recommended). |
 
 ---
 
@@ -526,8 +526,8 @@ iFrameConnector requires modern browser features:
 
 ### Module Formats
 
-- **ESM** (ECMAScript Modules) - `import { connectIframe } from 'iframeconnector'`
-- **CommonJS** - `const { connectIframe } = require('iframeconnector')`
+- **ESM** (ECMAScript Modules) - `import { connectIframe } from 'iframe-connector'`
+- **CommonJS** - `const { connectIframe } = require('iframe-connector')`
 - **TypeScript** - Full type definitions included
 
 ---

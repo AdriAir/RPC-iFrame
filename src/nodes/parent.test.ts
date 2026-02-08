@@ -35,20 +35,28 @@ describe("parent.ts", () => {
         messageListeners = [];
 
         // Mock window.addEventListener and removeEventListener
-        vi.spyOn(window, "addEventListener").mockImplementation((type, listener) => {
-            if (type === "message") {
-                messageListeners.push(listener as (event: MessageEvent) => void);
-            }
-        });
-
-        vi.spyOn(window, "removeEventListener").mockImplementation((type, listener) => {
-            if (type === "message") {
-                const index = messageListeners.indexOf(listener as (event: MessageEvent) => void);
-                if (index > -1) {
-                    messageListeners.splice(index, 1);
+        vi.spyOn(window, "addEventListener").mockImplementation(
+            (type, listener) => {
+                if (type === "message") {
+                    messageListeners.push(
+                        listener as (event: MessageEvent) => void,
+                    );
                 }
-            }
-        });
+            },
+        );
+
+        vi.spyOn(window, "removeEventListener").mockImplementation(
+            (type, listener) => {
+                if (type === "message") {
+                    const index = messageListeners.indexOf(
+                        listener as (event: MessageEvent) => void,
+                    );
+                    if (index > -1) {
+                        messageListeners.splice(index, 1);
+                    }
+                }
+            },
+        );
     });
 
     afterEach(() => {
@@ -59,7 +67,10 @@ describe("parent.ts", () => {
     /**
      * Helper to simulate receiving a handshake response
      */
-    function simulateHandshakeResponse(nonce: string, origin = "https://child.example.com") {
+    function simulateHandshakeResponse(
+        nonce: string,
+        origin = "https://child.example.com",
+    ) {
         const message = createHandshakeResponse(nonce);
         const event = new MessageEvent("message", { data: message, origin });
 
@@ -70,7 +81,11 @@ describe("parent.ts", () => {
     /**
      * Helper to simulate receiving an RPC response
      */
-    function simulateRPCResponse(id: string, result: unknown, origin = "https://child.example.com") {
+    function simulateRPCResponse(
+        id: string,
+        result: unknown,
+        origin = "https://child.example.com",
+    ) {
         const message = createResponse(id, result);
         const event = new MessageEvent("message", { data: message, origin });
 
@@ -80,7 +95,11 @@ describe("parent.ts", () => {
     /**
      * Helper to simulate receiving an RPC error
      */
-    function simulateRPCError(id: string, error: string, origin = "https://child.example.com") {
+    function simulateRPCError(
+        id: string,
+        error: string,
+        origin = "https://child.example.com",
+    ) {
         const message = createError(id, error);
         const event = new MessageEvent("message", { data: message, origin });
 
@@ -97,7 +116,8 @@ describe("parent.ts", () => {
             await new Promise((resolve) => setTimeout(resolve, 10));
 
             // Extract nonce from the postMessage call
-            const postMessageCalls = (iframe.contentWindow!.postMessage as any).mock.calls;
+            const postMessageCalls = (iframe.contentWindow!.postMessage as any)
+                .mock.calls;
             expect(postMessageCalls.length).toBeGreaterThan(0);
 
             const handshakeRequest = postMessageCalls[0][0];
@@ -125,7 +145,7 @@ describe("parent.ts", () => {
             await expect(
                 IframeConnection.connect(nullIframe, {
                     targetOrigin: "https://child.example.com",
-                })
+                }),
             ).rejects.toThrow("iframe.contentWindow is null");
         });
 
@@ -136,7 +156,9 @@ describe("parent.ts", () => {
             });
 
             // Don't send handshake response - let it timeout
-            await expect(connectPromise).rejects.toThrow("Handshake timed out after 100ms");
+            await expect(connectPromise).rejects.toThrow(
+                "Handshake timed out after 100ms",
+            );
         });
 
         it("should ignore handshake responses with wrong nonce", async () => {
@@ -163,7 +185,8 @@ describe("parent.ts", () => {
 
             await new Promise((resolve) => setTimeout(resolve, 10));
 
-            const postMessageCalls = (iframe.contentWindow!.postMessage as any).mock.calls;
+            const postMessageCalls = (iframe.contentWindow!.postMessage as any)
+                .mock.calls;
             const nonce = postMessageCalls[0][0].nonce;
 
             simulateHandshakeResponse(nonce);
@@ -190,7 +213,8 @@ describe("parent.ts", () => {
 
             await new Promise((resolve) => setTimeout(resolve, 10));
 
-            const postMessageCalls = (iframe.contentWindow!.postMessage as any).mock.calls;
+            const postMessageCalls = (iframe.contentWindow!.postMessage as any)
+                .mock.calls;
             const nonce = postMessageCalls[0][0].nonce;
 
             simulateHandshakeResponse(nonce);
@@ -202,7 +226,9 @@ describe("parent.ts", () => {
 
             // Find the request message
             await new Promise((resolve) => setTimeout(resolve, 10));
-            const requestCall = postMessageCalls.find((call: any) => call[0].type === "request");
+            const requestCall = postMessageCalls.find(
+                (call: any) => call[0].type === "request",
+            );
             expect(requestCall).toBeDefined();
 
             const requestId = requestCall[0].id;
@@ -229,7 +255,8 @@ describe("parent.ts", () => {
 
             await new Promise((resolve) => setTimeout(resolve, 10));
 
-            const postMessageCalls = (iframe.contentWindow!.postMessage as any).mock.calls;
+            const postMessageCalls = (iframe.contentWindow!.postMessage as any)
+                .mock.calls;
             const nonce = postMessageCalls[0][0].nonce;
 
             simulateHandshakeResponse(nonce);
@@ -239,13 +266,17 @@ describe("parent.ts", () => {
             const failingPromise = connection.remote.failing();
 
             await new Promise((resolve) => setTimeout(resolve, 10));
-            const requestCall = postMessageCalls.find((call: any) => call[0].type === "request");
+            const requestCall = postMessageCalls.find(
+                (call: any) => call[0].type === "request",
+            );
             const requestId = requestCall[0].id;
 
             // Simulate error response
             simulateRPCError(requestId, "Something went wrong");
 
-            await expect(failingPromise).rejects.toThrow("Something went wrong");
+            await expect(failingPromise).rejects.toThrow(
+                "Something went wrong",
+            );
 
             connection.destroy();
         });
@@ -262,7 +293,8 @@ describe("parent.ts", () => {
 
             await new Promise((resolve) => setTimeout(resolve, 10));
 
-            const postMessageCalls = (iframe.contentWindow!.postMessage as any).mock.calls;
+            const postMessageCalls = (iframe.contentWindow!.postMessage as any)
+                .mock.calls;
             const nonce = postMessageCalls[0][0].nonce;
 
             simulateHandshakeResponse(nonce);
@@ -272,7 +304,9 @@ describe("parent.ts", () => {
             // Don't send response - let it timeout
             const slowPromise = connection.remote.slow();
 
-            await expect(slowPromise).rejects.toThrow('Call to "slow" timed out after 100ms');
+            await expect(slowPromise).rejects.toThrow(
+                'Call to "slow" timed out after 100ms',
+            );
 
             connection.destroy();
         });
@@ -288,7 +322,8 @@ describe("parent.ts", () => {
 
             await new Promise((resolve) => setTimeout(resolve, 10));
 
-            const postMessageCalls = (iframe.contentWindow!.postMessage as any).mock.calls;
+            const postMessageCalls = (iframe.contentWindow!.postMessage as any)
+                .mock.calls;
             const nonce = postMessageCalls[0][0].nonce;
 
             simulateHandshakeResponse(nonce);
@@ -303,7 +338,9 @@ describe("parent.ts", () => {
             await new Promise((resolve) => setTimeout(resolve, 10));
 
             // Find all request messages
-            const requests = postMessageCalls.filter((call: any) => call[0].type === "request");
+            const requests = postMessageCalls.filter(
+                (call: any) => call[0].type === "request",
+            );
             expect(requests.length).toBe(3);
 
             // Respond to each in reverse order
@@ -332,7 +369,8 @@ describe("parent.ts", () => {
 
             await new Promise((resolve) => setTimeout(resolve, 10));
 
-            const postMessageCalls = (iframe.contentWindow!.postMessage as any).mock.calls;
+            const postMessageCalls = (iframe.contentWindow!.postMessage as any)
+                .mock.calls;
             const nonce = postMessageCalls[0][0].nonce;
 
             simulateHandshakeResponse(nonce);
@@ -354,7 +392,8 @@ describe("parent.ts", () => {
 
             await new Promise((resolve) => setTimeout(resolve, 10));
 
-            const postMessageCalls = (iframe.contentWindow!.postMessage as any).mock.calls;
+            const postMessageCalls = (iframe.contentWindow!.postMessage as any)
+                .mock.calls;
             const nonce = postMessageCalls[0][0].nonce;
 
             simulateHandshakeResponse(nonce);
