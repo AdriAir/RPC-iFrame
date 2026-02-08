@@ -1,7 +1,8 @@
 /**
  * child.ts - Child iframe side of iFrameConnector
  *
- * Exports `expose()` to register callable methods for the parent frame.
+ * Provides `IframeExposed` class and `expose()` factory for registering
+ * callable methods for the parent frame.
  *
  * Flow:
  *   1. Listen for HandshakeRequest from parent → respond with HandshakeResponse.
@@ -14,6 +15,10 @@
  * - Origin is validated at the Transport level.
  * - Error stack traces are intentionally omitted from responses to avoid
  *   leaking internal details across origins.
+ *
+ * OOP rationale:
+ * - Encapsulating the API reference, transport, and dispatch logic in a class
+ *   makes ownership of resources explicit and simplifies cleanup via `destroy()`.
  */
 
 import {
@@ -29,18 +34,122 @@ import type { ApiMethods, ExposeOptions } from './core/types';
 // Public types
 // ---------------------------------------------------------------------------
 
-/** Handle returned by `expose()` for cleanup. */
+/** Handle returned by `expose()` / `IframeExposed` for cleanup. */
 export interface ExposeHandle {
   /** Remove all listeners and stop responding to RPC calls. */
   destroy: () => void;
 }
 
 // ---------------------------------------------------------------------------
-// Main
+// IframeExposed class
+// ---------------------------------------------------------------------------
+
+/**
+ * Manages the child-side of an iframe RPC connection.
+ *
+ * Registers an API object whose methods can be invoked by the parent frame.
+ * Handles the handshake response and dispatches incoming RPC requests.
+ *
+ * @example
+ * ```ts
+ * const handle = new IframeExposed({
+ *   async greet(name: string) { return `Hello, ${name}!`; },
+ *   async add(a: number, b: number) { return a + b; },
+ * }, { allowedOrigin: 'https://parent.example.com' });
+ *
+ * // Later:
+ * handle.destroy();
+ * ```
+ */
+export class IframeExposed<T extends ApiMethods> implements ExposeHandle {
+  private readonly api: T;
+  private readonly transport: Transport;
+  private readonly unsubscribe: () => void;
+
+  constructor(api: T, options: ExposeOptions) {
+    this.api = api;
+    const { allowedOrigin } = options;
+    this.transport = new Transport(window.parent, allowedOrigin);
+
+    this.unsubscribe = this.transport.onMessage((message: ProtocolMessage) => {
+      this.handleMessage(message);
+    });
+  }
+
+  // ------------------------------------------------------------------
+  // Message handling
+  // ------------------------------------------------------------------
+
+  private handleMessage(message: ProtocolMessage): void {
+    switch (message.type) {
+      case 'handshake-request': {
+        this.transport.send(createHandshakeResponse(message.nonce));
+        break;
+      }
+
+      case 'request': {
+        this.dispatchRequest(message.id, message.method, message.args);
+        break;
+      }
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // RPC dispatch
+  // ------------------------------------------------------------------
+
+  /**
+   * Validates and executes an RPC request, sending back the result or error.
+   *
+   * Extracted into its own method for clarity: the message handler stays
+   * focused on routing, while this method handles validation + execution.
+   */
+  private async dispatchRequest(
+    id: string,
+    method: string,
+    args: unknown[],
+  ): Promise<void> {
+    // Guard: only own-property methods (no prototype pollution).
+    if (!Object.prototype.hasOwnProperty.call(this.api, method)) {
+      this.transport.send(createError(id, `Method "${method}" is not exposed.`));
+      return;
+    }
+
+    const fn = this.api[method];
+    if (typeof fn !== 'function') {
+      this.transport.send(createError(id, `"${method}" is not a function.`));
+      return;
+    }
+
+    try {
+      const result = await fn.apply(this.api, args);
+      this.transport.send(createResponse(id, result));
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      this.transport.send(createError(id, errorMessage));
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // Cleanup
+  // ------------------------------------------------------------------
+
+  /** Remove all listeners and stop responding to RPC calls. */
+  destroy(): void {
+    this.unsubscribe();
+    this.transport.destroy();
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Backward-compatible functional API
 // ---------------------------------------------------------------------------
 
 /**
  * Expose an API object so the parent frame can call its methods via RPC.
+ *
+ * Thin wrapper around `new IframeExposed()` that preserves the original
+ * functional API.
  *
  * @param api     Object whose values are async functions.
  * @param options Configuration — at minimum the allowed parent origin.
@@ -59,65 +168,5 @@ export interface ExposeHandle {
  * ```
  */
 export function expose<T extends ApiMethods>(api: T, options: ExposeOptions): ExposeHandle {
-  const { allowedOrigin } = options;
-  const transport = new Transport(window.parent, allowedOrigin);
-
-  const unsubscribe = transport.onMessage((message: ProtocolMessage) => {
-    switch (message.type) {
-      case 'handshake-request': {
-        transport.send(createHandshakeResponse(message.nonce));
-        break;
-      }
-
-      case 'request': {
-        dispatchRequest(api, message.id, message.method, message.args, transport);
-        break;
-      }
-    }
-  });
-
-  return {
-    destroy() {
-      unsubscribe();
-      transport.destroy();
-    },
-  };
-}
-
-// ---------------------------------------------------------------------------
-// Internal
-// ---------------------------------------------------------------------------
-
-/**
- * Validates and executes an RPC request, sending back the result or error.
- *
- * Extracted from the message handler for clarity: the switch case stays
- * focused on routing, while this function handles validation + execution.
- */
-async function dispatchRequest(
-  api: ApiMethods,
-  id: string,
-  method: string,
-  args: unknown[],
-  transport: Transport,
-): Promise<void> {
-  // Guard: only own-property methods (no prototype pollution).
-  if (!Object.prototype.hasOwnProperty.call(api, method)) {
-    transport.send(createError(id, `Method "${method}" is not exposed.`));
-    return;
-  }
-
-  const fn = api[method];
-  if (typeof fn !== 'function') {
-    transport.send(createError(id, `"${method}" is not a function.`));
-    return;
-  }
-
-  try {
-    const result = await fn.apply(api, args);
-    transport.send(createResponse(id, result));
-  } catch (err: unknown) {
-    const errorMessage = err instanceof Error ? err.message : String(err);
-    transport.send(createError(id, errorMessage));
-  }
+  return new IframeExposed(api, options);
 }

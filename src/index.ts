@@ -4,13 +4,18 @@
  * This is the single entry point for the library. It re-exports everything
  * a consumer needs:
  *
- *   - `connectIframe` — parent side: connect to a child iframe
- *   - `expose`        — child side:  register callable methods
+ *   - `connectIframe` — parent side: connect to a child iframe (functional API)
+ *   - `expose`        — child side:  register callable methods (functional API)
+ *   - `IframeConnection` — parent side class (OOP API)
+ *   - `IframeExposed`    — child side class  (OOP API)
  *   - All public TypeScript types for full type safety
+ *
+ * Both the functional and class-based APIs are fully supported.
+ * The functions are thin wrappers around the classes, so behaviour is identical.
  *
  * @example
  * ```ts
- * // Parent page
+ * // Parent page — functional style (unchanged from v0.0.1)
  * import { connectIframe } from 'iframeconnector';
  *
  * interface ChildApi {
@@ -31,6 +36,17 @@
  * ```
  *
  * ```ts
+ * // Parent page — class style (new OOP API)
+ * import { IframeConnection } from 'iframeconnector';
+ *
+ * const conn = await IframeConnection.connect<ChildApi>(iframe, {
+ *   targetOrigin: 'https://child.example.com',
+ * });
+ * console.log(await conn.remote.greet('World'));
+ * conn.destroy();
+ * ```
+ *
+ * ```ts
  * // Child page (inside the iframe)
  * import { expose } from 'iframeconnector';
  *
@@ -42,11 +58,11 @@
  */
 
 // Parent API
-export { connectIframe } from './parent';
+export { connectIframe, IframeConnection } from './parent';
 export type { Connection } from './parent';
 
 // Child API
-export { expose } from './child';
+export { expose, IframeExposed } from './child';
 export type { ExposeHandle } from './child';
 
 // Public types
@@ -56,4 +72,3 @@ export type {
   ConnectOptions,
   ExposeOptions,
 } from './core/types';
-``

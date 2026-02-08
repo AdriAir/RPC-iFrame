@@ -6,7 +6,7 @@
     </head>
     <body>
         <script type="module">
-            import { expose } from "./dist/index.js";
+            import { IframeExposed } from "./dist/index.js";
 
             // API que el padre podrá llamar
             const api = {
@@ -19,7 +19,7 @@
                 },
             };
 
-            expose(api, { allowedOrigin: "*" });
+            new IframeExposed(api, { allowedOrigin: "*" });
         </script>
     </body>
 </html>

@@ -30,7 +30,7 @@
         <pre id="log"></pre>
 
         <script type="module">
-            import { connectIframe } from "./dist/index.js";
+            import { IframeConnection } from "./dist/index.js";
 
             const iframe = document.getElementById("childFrame");
             const logEl = document.getElementById("log");
@@ -41,25 +41,25 @@
 
             (async () => {
                 try {
-                    const { remote, destroy } = await connectIframe(iframe, {
+                    const connection = await IframeConnection.connect(iframe, {
                         targetOrigin: "*",
                     });
 
-                    const greeting = await remote.greet("World");
+                    const greeting = await connection.remote.greet("World");
                     log(greeting); // "Hello, World!"
 
-                    const sum = await remote.add(2, 3);
+                    const sum = await connection.remote.add(2, 3);
                     log("Sum:", sum); // 5
 
                     // Ejemplo de error: llamar a método no expuesto
                     try {
-                        await remote.nonExistent();
+                        await connection.remote.nonExistent();
                     } catch (err) {
                         log("Error call:", err.message);
                     }
 
                     // Limpieza
-                    destroy();
+                    connection.destroy();
                 } catch (err) {
                     log("Connection failed:", err.message);
                 }

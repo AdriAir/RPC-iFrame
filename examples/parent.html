@@ -8,23 +8,23 @@
         <iframe id="childFrame" src="child.html"></iframe>
 
         <script type="module">
-            import { connectIframe } from "./dist/index.js";
+            import { IframeConnection } from "./dist/index.js";
 
             const iframe = document.getElementById("childFrame");
 
             (async () => {
                 try {
-                    const { remote, destroy } = await connectIframe(iframe, {
+                    const connection = await IframeConnection.connect(iframe, {
                         targetOrigin: window.origin,
                     });
 
-                    const greeting = await remote.greet("World");
+                    const greeting = await connection.remote.greet("World");
                     console.log(greeting); // "Hello, World!"
 
-                    const sum = await remote.add(2, 3);
+                    const sum = await connection.remote.add(2, 3);
                     console.log(sum); // 5
 
-                    destroy(); // Limpiar la conexión
+                    connection.destroy(); // Limpiar la conexión
                 } catch (err) {
                     console.error(err);
                 }
