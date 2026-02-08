@@ -140,3 +140,6 @@ vite.config.ts.timestamp-*
 
 # Claude files
 .claude/
+
+# VS Code settings
+.vscode/
