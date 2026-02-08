@@ -26,6 +26,8 @@
 
         <iframe id="childFrame" src="child.html"></iframe>
 
+        <button id="changeColor">Change Child Background</button>
+
         <h2>Console output:</h2>
         <pre id="log"></pre>
 
@@ -33,10 +35,10 @@
             import { IframeConnection } from "./dist/index.js";
 
             const iframe = document.getElementById("childFrame");
-            const logEl = document.getElementById("log");
+            const logElement = document.getElementById("log");
             const log = (...args) => {
                 console.log(...args);
-                logEl.textContent += args.join(" ") + "\n";
+                logElement.textContent += args.join(" ") + "\n";
             };
 
             (async () => {
@@ -50,6 +52,16 @@
 
                     const sum = await connection.remote.add(2, 3);
                     log("Sum:", sum); // 5
+
+                    document
+                        .getElementById("changeColor")
+                        .addEventListener("click", async () => {
+                            const response =
+                                await connection.remote.setBackgroundColor(
+                                    "lightcoral",
+                                );
+                            console.log(response); // "Background color set to lightcoral"
+                        });
 
                     // Ejemplo de error: llamar a método no expuesto
                     try {

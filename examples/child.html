@@ -3,6 +3,8 @@
     <head>
         <meta charset="UTF-8" />
         <title>Child iframe</title>
+        <h1>Child iframe</h1>
+        <p>This iframe exposes an API that the parent can call via RPC.</p>
     </head>
     <body>
         <script type="module">
@@ -16,6 +18,10 @@
                 },
                 async add(a, b) {
                     return a + b;
+                },
+                async setBackgroundColor(color) {
+                    document.body.style.backgroundColor = color;
+                    return `Background color set to ${color}`;
                 },
             };
 
