@@ -2,7 +2,7 @@
 
 Modern TypeScript library for type-safe, secure communication between web applications and iFrames using RPC (Remote Procedure Call).
 
-> ⚠️ **EXPERIMENTAL - v0.0.1**
+> ⚠️ **EXPERIMENTAL - v0.2.0**
 >
 > This library is in early development and may contain bugs, security vulnerabilities, or breaking changes in future versions. Use at your own risk and avoid using in production environments without thorough testing. Always validate and sanitize data exchanged between frames.
 

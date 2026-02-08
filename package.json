@@ -1,6 +1,6 @@
 {
     "name": "iframe-connector",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Modern JS/TS library for RPC-style communication between parent and iframe",
     "license": "MIT",
     "main": "dist/index.cjs",
