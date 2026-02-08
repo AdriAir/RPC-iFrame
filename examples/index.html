@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>iFrameConnector Demo</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                padding: 2rem;
+            }
+            iframe {
+                width: 100%;
+                height: 200px;
+                border: 1px solid #ccc;
+                margin-top: 1rem;
+            }
+            pre {
+                background: #f0f0f0;
+                padding: 1rem;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>iFrameConnector Demo</h1>
+        <p>Parent page communicating with child iframe via RPC.</p>
+
+        <iframe id="childFrame" src="child.html"></iframe>
+
+        <h2>Console output:</h2>
+        <pre id="log"></pre>
+
+        <script type="module">
+            import { connectIframe } from "./dist/index.js";
+
+            const iframe = document.getElementById("childFrame");
+            const logEl = document.getElementById("log");
+            const log = (...args) => {
+                console.log(...args);
+                logEl.textContent += args.join(" ") + "\n";
+            };
+
+            (async () => {
+                try {
+                    const { remote, destroy } = await connectIframe(iframe, {
+                        targetOrigin: "*",
+                    });
+
+                    const greeting = await remote.greet("World");
+                    log(greeting); // "Hello, World!"
+
+                    const sum = await remote.add(2, 3);
+                    log("Sum:", sum); // 5
+
+                    // Ejemplo de error: llamar a método no expuesto
+                    try {
+                        await remote.nonExistent();
+                    } catch (err) {
+                        log("Error call:", err.message);
+                    }
+
+                    // Limpieza
+                    destroy();
+                } catch (err) {
+                    log("Connection failed:", err.message);
+                }
+            })();
+        </script>
+    </body>
+</html>

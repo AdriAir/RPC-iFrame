@@ -11,10 +11,11 @@
         "dist"
     ],
     "scripts": {
-        "build": "tsup src/index.ts --format esm,cjs --dts",
+        "build": "tsup src/index.ts --format esm,cjs --dts && cpx \"dist/**/*\" examples/dist",
         "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
         "typecheck": "tsc --noEmit",
-        "clean": "rm -rf dist"
+        "clean": "rimraf dist examples/dist",
+        "serve": "serve examples/"
     },
     "repository": {
         "type": "git",
@@ -25,6 +26,9 @@
     },
     "homepage": "https://github.com/AdriAir/iFrameConnector#readme",
     "devDependencies": {
+        "cpx": "^1.5.0",
+        "rimraf": "^6.1.2",
+        "serve": "^14.2.5",
         "tsup": "^8.5.1",
         "typescript": "^5.9.3"
     }

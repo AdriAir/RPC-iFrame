@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Parent page</title>
+    </head>
+    <body>
+        <iframe id="childFrame" src="child.html"></iframe>
+
+        <script type="module">
+            import { connectIframe } from "./dist/index.js";
+
+            const iframe = document.getElementById("childFrame");
+
+            (async () => {
+                try {
+                    const { remote, destroy } = await connectIframe(iframe, {
+                        targetOrigin: window.origin,
+                    });
+
+                    const greeting = await remote.greet("World");
+                    console.log(greeting); // "Hello, World!"
+
+                    const sum = await remote.add(2, 3);
+                    console.log(sum); // 5
+
+                    destroy(); // Limpiar la conexión
+                } catch (err) {
+                    console.error(err);
+                }
+            })();
+        </script>
+    </body>
+</html>
