@@ -1,0 +1,68 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    background: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+#app {
+    padding: 16px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #888;
+    margin-bottom: 4px;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+th {
+    text-align: left;
+    padding: 6px 8px;
+    background: #f0f0f0;
+    border-bottom: 2px solid #ddd;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #666;
+}
+
+td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #eee;
+}
+
+td.child-id {
+    font-weight: 600;
+    color: #333;
+}
+
+td.status {
+    color: #555;
+}
+
+.no-data {
+    color: #aaa;
+    font-style: italic;
+}

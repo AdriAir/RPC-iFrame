@@ -36,10 +36,10 @@
         "frontend"
     ],
     "scripts": {
-        "build": "tsup src/index.ts --format esm,cjs --dts && cpx \"dist/**/*\" examples/dist",
+        "build": "tsup src/index.ts --format esm,cjs --dts",
         "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
         "typecheck": "tsc --noEmit",
-        "clean": "rimraf dist examples/dist",
+        "clean": "rimraf dist",
         "serve": "serve examples/",
         "test": "vitest run",
         "test:watch": "vitest",

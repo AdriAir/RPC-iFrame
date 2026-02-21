@@ -1,0 +1,68 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    background: #1a1a2e;
+    color: #eee;
+    transition: background-color 0.3s ease;
+}
+
+#app {
+    padding: 16px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #888;
+    margin-bottom: 4px;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.logs {
+    flex: 1;
+    overflow-y: auto;
+    font-family: monospace;
+    font-size: 12px;
+    background: #0a0a1a;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.log-entry {
+    padding: 2px 0;
+    border-bottom: 1px solid #222;
+    line-height: 1.6;
+}
+
+.log-entry .time {
+    color: #555;
+}
+
+.log-entry .source {
+    color: #53c28b;
+    font-weight: 600;
+}
+
+.log-entry .msg {
+    color: #ccc;
+}
+
+.empty {
+    color: #555;
+    font-style: italic;
+}

@@ -1,0 +1,63 @@
+services:
+  host:
+    build:
+      context: ../..
+      dockerfile: examples/iFrameConnector_Example/Dockerfile
+      args:
+        APP_DIR: host
+    ports:
+      - "5173:5173"
+
+  child-a:
+    build:
+      context: ../..
+      dockerfile: examples/iFrameConnector_Example/Dockerfile
+      args:
+        APP_DIR: child-a
+    ports:
+      - "5174:5173"
+
+  child-b:
+    build:
+      context: ../..
+      dockerfile: examples/iFrameConnector_Example/Dockerfile
+      args:
+        APP_DIR: child-b
+    ports:
+      - "5175:5173"
+
+  child-c:
+    build:
+      context: ../..
+      dockerfile: examples/iFrameConnector_Example/Dockerfile
+      args:
+        APP_DIR: child-c
+    ports:
+      - "5176:5173"
+
+  child-d:
+    build:
+      context: ../..
+      dockerfile: examples/iFrameConnector_Example/Dockerfile
+      args:
+        APP_DIR: child-d
+    ports:
+      - "5177:5173"
+
+  child-e:
+    build:
+      context: ../..
+      dockerfile: examples/iFrameConnector_Example/Dockerfile
+      args:
+        APP_DIR: child-e
+    ports:
+      - "5178:5173"
+
+  child-f:
+    build:
+      context: ../..
+      dockerfile: examples/iFrameConnector_Example/Dockerfile
+      args:
+        APP_DIR: child-f
+    ports:
+      - "5179:5173"
