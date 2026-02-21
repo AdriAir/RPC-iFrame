@@ -1,6 +1,6 @@
-# iFrame Connector - Micro-frontend Demo
+# RPC-iFrame - Micro-frontend Demo
 
-A realistic example demonstrating RPC-style communication between 7 independent Vite applications using `iframe-connector`.
+A realistic example demonstrating RPC-style communication between 7 independent Vite applications using `rpc-iframe`.
 
 ## Architecture
 

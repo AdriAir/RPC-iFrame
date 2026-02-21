@@ -280,7 +280,7 @@ export class IframeConnection<T extends ApiMethods> implements Connection<T> {
  *
  * @example
  * ```ts
- * import { connectIframe } from 'iframe-connector';
+ * import { connectIframe } from 'rpc-iframe';
  *
  * interface ChildApi {
  *   greet(name: string): Promise<string>;

@@ -13,6 +13,6 @@ Requires modern browser APIs: `Proxy`, `Promise`, `postMessage`, `crypto.randomU
 
 ## Module Formats
 
-- **ESM** — `import { connectIframe } from 'iframe-connector'`
-- **CJS** — `const { connectIframe } = require('iframe-connector')`
+- **ESM** — `import { connectIframe } from 'rpc-iframe'`
+- **CJS** — `const { connectIframe } = require('rpc-iframe')`
 - **TypeScript** — Full type definitions included

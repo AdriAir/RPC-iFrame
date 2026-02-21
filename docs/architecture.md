@@ -1,6 +1,6 @@
 # Architecture
 
-iFrame-Connector implements a **Remote Procedure Call (RPC)** layer over the browser's `postMessage` API. Each iframe becomes a node in the mesh, and every exposed method becomes a callable endpoint.
+RPC-iFrame implements a **Remote Procedure Call (RPC)** layer over the browser's `postMessage` API. Each iframe becomes a node in the mesh, and every exposed method becomes a callable endpoint.
 
 ```text
 ┌─────────────────┐                    ┌─────────────────┐

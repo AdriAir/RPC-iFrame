@@ -54,7 +54,7 @@ Class-based equivalent of `expose`. Instantiate to start responding to RPC calls
 
 ## TypeScript
 
-iFrame-Connector is written in TypeScript and provides full type inference:
+RPC-iFrame is written in TypeScript and provides full type inference:
 
 ```typescript
 interface MyAPI {

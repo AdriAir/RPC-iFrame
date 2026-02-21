@@ -1,5 +1,5 @@
 {
-    "name": "iframe-connector",
+    "name": "rpc-iframe",
     "version": "0.2.0",
     "description": "Modern JS/TS library for RPC-style communication between parent and iframe",
     "license": "MIT",

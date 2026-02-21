@@ -1,5 +1,5 @@
-import { IframeConnection } from "iframe-connector";
-import type { ApiMethods } from "iframe-connector";
+import { IframeConnection } from "rpc-iframe";
+import type { ApiMethods } from "rpc-iframe";
 import "./style.css";
 
 // ---------------------------------------------------------------------------
@@ -65,7 +65,7 @@ const app = document.getElementById("app")!;
 const panel = document.createElement("div");
 panel.className = "control-panel";
 panel.innerHTML = `
-    <h1>iFrame Connector Demo</h1>
+    <h1>RPC iFrame Demo</h1>
     <button id="btn-sync-colors">Sync Colors</button>
     <button id="btn-greet">Broadcast Greeting</button>
     <button id="btn-increment">Increment &amp; Broadcast</button>

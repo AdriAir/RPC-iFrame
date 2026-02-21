@@ -1,4 +1,4 @@
-import { IframeExposed } from "iframe-connector";
+import { IframeExposed } from "rpc-iframe";
 import "./style.css";
 
 const app = document.getElementById("app")!;

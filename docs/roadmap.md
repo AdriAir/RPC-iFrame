@@ -8,13 +8,13 @@ The foundation. Parent and child establish a secure handshake over `postMessage`
 
 ## v0.2 — Test Suite & NPM Distribution ✅
 
-Full unit test coverage with Vitest. Published to NPM as `iframe-connector` with ESM, CJS, and TypeScript declarations. The infrastructure is now consumable as a dependency.
+Full unit test coverage with Vitest. Published to NPM as `rpc-iframe` with ESM, CJS, and TypeScript declarations. The infrastructure is now consumable as a dependency.
 
 ## v0.3 — Runtime Contract Validation
 
 **The parent declares what it needs. The child must comply — or the connection fails immediately.**
 
-The parent passes a `require` list during connection. After the handshake, iFrame-Connector compares the declared requirements against the child's actual exposed methods. If any method is missing, the connection is rejected with a `ContractViolation` error before any RPC call is made.
+The parent passes a `require` list during connection. After the handshake, RPC-iFrame compares the declared requirements against the child's actual exposed methods. If any method is missing, the connection is rejected with a `ContractViolation` error before any RPC call is made.
 
 ```typescript
 const { remote } = await connectIframe<ChildAPI>(iframe, {
@@ -39,7 +39,7 @@ if (!required.every((m) => childApi.includes(m))) {
 
 ## v0.4 — Explicit Contracts (TypeScript-first)
 
-**Contracts become first-class objects.** Instead of a list of strings, the parent declares a contract as a typed constant. iFrame-Connector validates the child's surface against that contract at runtime, while TypeScript enforces it at compile time.
+**Contracts become first-class objects.** Instead of a list of strings, the parent declares a contract as a typed constant. RPC-iFrame validates the child's surface against that contract at runtime, while TypeScript enforces it at compile time.
 
 ```typescript
 // Define the contract once, share across parent and child
@@ -99,7 +99,7 @@ The handshake response now includes:
 
 ## v0.6 — Dev Diagnostics
 
-**A built-in observability layer for development.** Enable `debug: true` and iFrame-Connector prints structured logs for every stage of the lifecycle.
+**A built-in observability layer for development.** Enable `debug: true` and RPC-iFrame prints structured logs for every stage of the lifecycle.
 
 ```typescript
 const { remote } = await connectIframe<ChildAPI>(iframe, {
@@ -124,10 +124,10 @@ What you see in the console:
 
 ## v0.7 — Micro-Frontend Helpers
 
-**First-class primitives for micro-frontend architectures.** iFrame-Connector provides helpers that handle the lifecycle of dynamically loaded iframe services.
+**First-class primitives for micro-frontend architectures.** RPC-iFrame provides helpers that handle the lifecycle of dynamically loaded iframe services.
 
 ```typescript
-import { createMicroFrontend, registerChild } from "iframe-connector";
+import { createMicroFrontend, registerChild } from "rpc-iframe";
 ```
 
 - `createMicroFrontend()` — Lazy-loads an iframe, connects, and returns the typed remote. One call replaces iframe creation + src assignment + load event + handshake + proxy setup.
@@ -135,7 +135,7 @@ import { createMicroFrontend, registerChild } from "iframe-connector";
 
 **What this means:**
 
-- iFrame-Connector stops being "the thing you wrap around postMessage" and becomes the service mesh layer that manages your micro-frontend topology.
+- RPC-iFrame stops being "the thing you wrap around postMessage" and becomes the service mesh layer that manages your micro-frontend topology.
 - Retries, health checks, and lazy loading are infrastructure concerns — they belong in the mesh, not in application code.
 
 ## v0.8 — Stability Pass
@@ -152,7 +152,7 @@ import { createMicroFrontend, registerChild } from "iframe-connector";
 
 **The mesh is complete.**
 
-iFrame-Connector v1.0 is a fully typed, contract-driven, runtime-validated RPC platform that runs entirely in the browser. No servers. No build steps. No framework lock-in.
+RPC-iFrame v1.0 is a fully typed, contract-driven, runtime-validated RPC platform that runs entirely in the browser. No servers. No build steps. No framework lock-in.
 
 | Capability           | Status   |
 | -------------------- | -------- |
@@ -164,4 +164,4 @@ iFrame-Connector v1.0 is a fully typed, contract-driven, runtime-validated RPC p
 | Micro-frontend Ready | Complete |
 | Production Hardened  | Complete |
 
-**This is infrastructure.** Applications built on iFrame-Connector don't "use a library" — they run on a service mesh where every iframe is a node, every method is an endpoint, and every call is a typed, validated, observable RPC.
+**This is infrastructure.** Applications built on RPC-iFrame don't "use a library" — they run on a service mesh where every iframe is a node, every method is an endpoint, and every call is a typed, validated, observable RPC.

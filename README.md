@@ -1,6 +1,6 @@
-# iFrame-Connector
+# RPC iFrame
 
-![npm](https://img.shields.io/npm/v/iframe-connector)
+![npm](https://img.shields.io/npm/v/rpc-iframe)
 
 Type-safe RPC between iframes. Call methods across frames like they're local functions.
 
@@ -54,16 +54,16 @@ All method calls are proxied over `postMessage` as typed async RPC.
 
 > If using the `sandbox` attribute on your iframe, make sure to allow `allow-scripts` and `allow-same-origin`.
 
-## Why iFrame-Connector
+## Why RPC-iFrame
 
 If you work with iframes, you know the pain: raw `postMessage`, manual serialization, no types, origin checks scattered everywhere, zero error context when something breaks.
 
-iFrame-Connector replaces all of that with a single abstraction: **typed RPC**. You define an interface, expose it from the child, and call it from the parent. The runtime handles handshakes, security, and cleanup.
+RPC-iFrame replaces all of that with a single abstraction: **typed RPC**. You define an interface, expose it from the child, and call it from the parent. The runtime handles handshakes, security, and cleanup.
 
 ## Install
 
 ```bash
-npm install iframe-connector
+npm install rpc-iframe
 ```
 
 ## What's next

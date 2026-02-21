@@ -3,15 +3,15 @@
 ## Installation
 
 ```bash
-npm install iframe-connector
+npm install rpc-iframe
 ```
 
 ```bash
-yarn add iframe-connector
+yarn add rpc-iframe
 ```
 
 ```bash
-pnpm add iframe-connector
+pnpm add rpc-iframe
 ```
 
 ## Quick Start
@@ -19,7 +19,7 @@ pnpm add iframe-connector
 ### Parent (Host Application)
 
 ```typescript
-import { connectIframe } from "iframe-connector";
+import { connectIframe } from "rpc-iframe";
 
 // Define the shape of the child's exposed service
 interface ChildAPI {
@@ -48,7 +48,7 @@ destroy();
 ### Child (Service Node inside the iFrame)
 
 ```typescript
-import { expose } from "iframe-connector";
+import { expose } from "rpc-iframe";
 
 // Implement the service that the parent can call
 const api = {
@@ -77,7 +77,7 @@ The simplest way to connect nodes. One function to connect, one to expose.
 #### Parent Node
 
 ```typescript
-import { connectIframe } from "iframe-connector";
+import { connectIframe } from "rpc-iframe";
 
 interface ChildAPI {
     getUserData(userId: string): Promise<{ name: string; email: string }>;
@@ -101,7 +101,7 @@ connection.destroy();
 #### Child Node
 
 ```typescript
-import { expose } from "iframe-connector";
+import { expose } from "rpc-iframe";
 
 const api = {
     async getUserData(userId: string) {
@@ -132,7 +132,7 @@ For applications that prefer explicit lifecycle management.
 #### Parent Node (OOP)
 
 ```typescript
-import { IframeConnection } from "iframe-connector";
+import { IframeConnection } from "rpc-iframe";
 
 interface ChildAPI {
     calculate(expression: string): Promise<number>;
@@ -153,7 +153,7 @@ conn.destroy();
 #### Child Node (OOP)
 
 ```typescript
-import { IframeExposed } from "iframe-connector";
+import { IframeExposed } from "rpc-iframe";
 
 class CalculatorAPI {
     async calculate(expression: string): Promise<number> {
