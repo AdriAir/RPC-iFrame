@@ -18,16 +18,16 @@ The parent passes a `require` list during connection. After the handshake, iFram
 
 ```typescript
 const { remote } = await connectIframe<ChildAPI>(iframe, {
-  targetOrigin: 'https://child.example.com',
-  require: ['add', 'greet'],
+    targetOrigin: "https://child.example.com",
+    require: ["add", "greet"],
 });
 ```
 
 Internally:
 
 ```typescript
-if (!required.every(m => childApi.includes(m))) {
-  throw new Error('Contract violation: missing methods');
+if (!required.every((m) => childApi.includes(m))) {
+    throw new Error("Contract violation: missing methods");
 }
 ```
 
@@ -44,14 +44,14 @@ if (!required.every(m => childApi.includes(m))) {
 ```typescript
 // Define the contract once, share across parent and child
 export const ChildApiContract = {
-  add: true,
-  greet: true,
+    add: true,
+    greet: true,
 } as const;
 
 // Parent uses the contract
 const { remote } = await connectIframe<ChildAPI>(iframe, {
-  targetOrigin: 'https://child.example.com',
-  contract: ChildApiContract,
+    targetOrigin: "https://child.example.com",
+    contract: ChildApiContract,
 });
 ```
 
@@ -59,11 +59,11 @@ Or inline with generics:
 
 ```typescript
 const { remote } = await connectIframe<ChildAPI>(iframe, {
-  targetOrigin: 'https://child.example.com',
-  contract: {
-    add: true,
-    greet: true,
-  },
+    targetOrigin: "https://child.example.com",
+    contract: {
+        add: true,
+        greet: true,
+    },
 });
 ```
 
@@ -80,8 +80,8 @@ const { remote } = await connectIframe<ChildAPI>(iframe, {
 ```typescript
 // Child exposes its API with a schema
 expose(api, {
-  allowedOrigin: 'https://parent.example.com',
-  schema: ChildApiContract,
+    allowedOrigin: "https://parent.example.com",
+    schema: ChildApiContract,
 });
 ```
 
@@ -103,8 +103,8 @@ The handshake response now includes:
 
 ```typescript
 const { remote } = await connectIframe<ChildAPI>(iframe, {
-  targetOrigin: 'https://child.example.com',
-  debug: true,
+    targetOrigin: "https://child.example.com",
+    debug: true,
 });
 ```
 
@@ -127,7 +127,7 @@ What you see in the console:
 **First-class primitives for micro-frontend architectures.** iFrame-Connector provides helpers that handle the lifecycle of dynamically loaded iframe services.
 
 ```typescript
-import { createMicroFrontend, registerChild } from 'iframe-connector';
+import { createMicroFrontend, registerChild } from "iframe-connector";
 ```
 
 - `createMicroFrontend()` — Lazy-loads an iframe, connects, and returns the typed remote. One call replaces iframe creation + src assignment + load event + handshake + proxy setup.
@@ -154,14 +154,14 @@ import { createMicroFrontend, registerChild } from 'iframe-connector';
 
 iFrame-Connector v1.0 is a fully typed, contract-driven, runtime-validated RPC platform that runs entirely in the browser. No servers. No build steps. No framework lock-in.
 
-| Capability              | Status    |
-| ----------------------- | --------- |
-| Typed RPC               | Complete  |
-| Explicit Contracts      | Complete  |
-| Runtime Validation      | Complete  |
-| Service Discovery       | Complete  |
-| Dev Diagnostics         | Complete  |
-| Micro-frontend Ready    | Complete  |
-| Production Hardened     | Complete  |
+| Capability           | Status   |
+| -------------------- | -------- |
+| Typed RPC            | Complete |
+| Explicit Contracts   | Complete |
+| Runtime Validation   | Complete |
+| Service Discovery    | Complete |
+| Dev Diagnostics      | Complete |
+| Micro-frontend Ready | Complete |
+| Production Hardened  | Complete |
 
 **This is infrastructure.** Applications built on iFrame-Connector don't "use a library" — they run on a service mesh where every iframe is a node, every method is an endpoint, and every call is a typed, validated, observable RPC.

@@ -7,7 +7,7 @@ Type-safe RPC between iframes. Call methods across frames like they're local fun
 ```typescript
 // Parent
 const { remote } = await connectIframe<ChildAPI>(iframe, {
-  targetOrigin: 'https://child.example.com',
+    targetOrigin: "https://child.example.com",
 });
 
 const result = await remote.add(2, 3); // 5 — typed, async, done.
@@ -15,9 +15,14 @@ const result = await remote.add(2, 3); // 5 — typed, async, done.
 
 ```typescript
 // Child
-expose({
-  async add(a: number, b: number) { return a + b; },
-}, { allowedOrigin: 'https://parent.example.com' });
+expose(
+    {
+        async add(a: number, b: number) {
+            return a + b;
+        },
+    },
+    { allowedOrigin: "https://parent.example.com" },
+);
 ```
 
 That's it. No glue code, no message parsing, no `postMessage` boilerplate.
@@ -74,15 +79,15 @@ Check the full [Roadmap](docs/roadmap.md) for details.
 
 ## Docs
 
-| Document | What you'll find |
-| --- | --- |
-| [Getting Started](docs/getting-started.md) | Installation, quick start, functional & OOP API usage |
-| [API Reference](docs/api-reference.md) | Full API surface, configuration options, TypeScript types |
-| [Architecture](docs/architecture.md) | Internal design, protocol, transport, RPC flow diagram |
-| [Security](docs/security.md) | Origin validation, method exposure, nonce handshake |
-| [Examples](docs/examples.md) | Payments, micro-frontends, sandboxing, cross-domain data |
-| [Compatibility](docs/compatibility.md) | Browser support table, module formats (ESM/CJS) |
-| [Roadmap](docs/roadmap.md) | v0.1 → v1.0 — every milestone and what it unlocks |
+| Document                                   | What you'll find                                          |
+| ------------------------------------------ | --------------------------------------------------------- |
+| [Getting Started](docs/getting-started.md) | Installation, quick start, functional & OOP API usage     |
+| [API Reference](docs/api-reference.md)     | Full API surface, configuration options, TypeScript types |
+| [Architecture](docs/architecture.md)       | Internal design, protocol, transport, RPC flow diagram    |
+| [Security](docs/security.md)               | Origin validation, method exposure, nonce handshake       |
+| [Examples](docs/examples.md)               | Payments, micro-frontends, sandboxing, cross-domain data  |
+| [Compatibility](docs/compatibility.md)     | Browser support table, module formats (ESM/CJS)           |
+| [Roadmap](docs/roadmap.md)                 | v0.1 → v1.0 — every milestone and what it unlocks         |
 
 ## Contributing
 

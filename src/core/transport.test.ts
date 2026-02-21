@@ -4,7 +4,7 @@
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { Transport } from "./transport";
-import { createHandshakeRequest, createRequest, IFC_BRAND } from "./protocol";
+import { createHandshakeRequest, createRequest } from "./protocol";
 
 describe("transport.ts", () => {
     let mockTargetWindow: Window;
@@ -20,20 +20,28 @@ describe("transport.ts", () => {
         messageListeners = [];
 
         // Mock window.addEventListener and removeEventListener
-        vi.spyOn(window, "addEventListener").mockImplementation((type, listener) => {
-            if (type === "message") {
-                messageListeners.push(listener as (event: MessageEvent) => void);
-            }
-        });
-
-        vi.spyOn(window, "removeEventListener").mockImplementation((type, listener) => {
-            if (type === "message") {
-                const index = messageListeners.indexOf(listener as (event: MessageEvent) => void);
-                if (index > -1) {
-                    messageListeners.splice(index, 1);
+        vi.spyOn(window, "addEventListener").mockImplementation(
+            (type, listener) => {
+                if (type === "message") {
+                    messageListeners.push(
+                        listener as (event: MessageEvent) => void,
+                    );
                 }
-            }
-        });
+            },
+        );
+
+        vi.spyOn(window, "removeEventListener").mockImplementation(
+            (type, listener) => {
+                if (type === "message") {
+                    const index = messageListeners.indexOf(
+                        listener as (event: MessageEvent) => void,
+                    );
+                    if (index > -1) {
+                        messageListeners.splice(index, 1);
+                    }
+                }
+            },
+        );
     });
 
     afterEach(() => {
@@ -43,9 +51,15 @@ describe("transport.ts", () => {
 
     describe("constructor", () => {
         it("should create a transport instance and register message listener", () => {
-            const transport = new Transport(mockTargetWindow, "https://example.com");
+            const transport = new Transport(
+                mockTargetWindow,
+                "https://example.com",
+            );
 
-            expect(window.addEventListener).toHaveBeenCalledWith("message", expect.any(Function));
+            expect(window.addEventListener).toHaveBeenCalledWith(
+                "message",
+                expect.any(Function),
+            );
             expect(messageListeners).toHaveLength(1);
 
             transport.destroy();
@@ -54,14 +68,17 @@ describe("transport.ts", () => {
 
     describe("send", () => {
         it("should send a protocol message to the target window", () => {
-            const transport = new Transport(mockTargetWindow, "https://example.com");
+            const transport = new Transport(
+                mockTargetWindow,
+                "https://example.com",
+            );
             const message = createHandshakeRequest("test-nonce");
 
             transport.send(message);
 
             expect(mockTargetWindow.postMessage).toHaveBeenCalledWith(
                 message,
-                "https://example.com"
+                "https://example.com",
             );
 
             transport.destroy();
@@ -73,7 +90,10 @@ describe("transport.ts", () => {
 
             transport.send(message);
 
-            expect(mockTargetWindow.postMessage).toHaveBeenCalledWith(message, "*");
+            expect(mockTargetWindow.postMessage).toHaveBeenCalledWith(
+                message,
+                "*",
+            );
 
             transport.destroy();
         });
@@ -81,7 +101,10 @@ describe("transport.ts", () => {
 
     describe("onMessage", () => {
         it("should invoke callback when receiving valid protocol messages from correct origin", () => {
-            const transport = new Transport(mockTargetWindow, "https://example.com");
+            const transport = new Transport(
+                mockTargetWindow,
+                "https://example.com",
+            );
             const callback = vi.fn();
 
             transport.onMessage(callback);
@@ -95,13 +118,19 @@ describe("transport.ts", () => {
             // Simulate receiving the message
             messageListeners[0](event);
 
-            expect(callback).toHaveBeenCalledWith(message, "https://example.com");
+            expect(callback).toHaveBeenCalledWith(
+                message,
+                "https://example.com",
+            );
 
             transport.destroy();
         });
 
         it("should ignore messages from wrong origin", () => {
-            const transport = new Transport(mockTargetWindow, "https://example.com");
+            const transport = new Transport(
+                mockTargetWindow,
+                "https://example.com",
+            );
             const callback = vi.fn();
 
             transport.onMessage(callback);
@@ -133,13 +162,19 @@ describe("transport.ts", () => {
 
             messageListeners[0](event);
 
-            expect(callback).toHaveBeenCalledWith(message, "https://any-origin.com");
+            expect(callback).toHaveBeenCalledWith(
+                message,
+                "https://any-origin.com",
+            );
 
             transport.destroy();
         });
 
         it("should ignore non-protocol messages", () => {
-            const transport = new Transport(mockTargetWindow, "https://example.com");
+            const transport = new Transport(
+                mockTargetWindow,
+                "https://example.com",
+            );
             const callback = vi.fn();
 
             transport.onMessage(callback);
@@ -166,7 +201,10 @@ describe("transport.ts", () => {
         });
 
         it("should return an unsubscribe function", () => {
-            const transport = new Transport(mockTargetWindow, "https://example.com");
+            const transport = new Transport(
+                mockTargetWindow,
+                "https://example.com",
+            );
             const callback = vi.fn();
 
             const unsubscribe = transport.onMessage(callback);
@@ -196,7 +234,10 @@ describe("transport.ts", () => {
         });
 
         it("should support multiple callbacks", () => {
-            const transport = new Transport(mockTargetWindow, "https://example.com");
+            const transport = new Transport(
+                mockTargetWindow,
+                "https://example.com",
+            );
             const callback1 = vi.fn();
             const callback2 = vi.fn();
 
@@ -211,8 +252,14 @@ describe("transport.ts", () => {
 
             messageListeners[0](event);
 
-            expect(callback1).toHaveBeenCalledWith(message, "https://example.com");
-            expect(callback2).toHaveBeenCalledWith(message, "https://example.com");
+            expect(callback1).toHaveBeenCalledWith(
+                message,
+                "https://example.com",
+            );
+            expect(callback2).toHaveBeenCalledWith(
+                message,
+                "https://example.com",
+            );
 
             transport.destroy();
         });
@@ -220,7 +267,10 @@ describe("transport.ts", () => {
 
     describe("destroy", () => {
         it("should remove event listener and clear callbacks", () => {
-            const transport = new Transport(mockTargetWindow, "https://example.com");
+            const transport = new Transport(
+                mockTargetWindow,
+                "https://example.com",
+            );
             const callback = vi.fn();
 
             transport.onMessage(callback);
@@ -228,12 +278,15 @@ describe("transport.ts", () => {
 
             transport.destroy();
 
-            expect(window.removeEventListener).toHaveBeenCalledWith("message", expect.any(Function));
+            expect(window.removeEventListener).toHaveBeenCalledWith(
+                "message",
+                expect.any(Function),
+            );
             expect(messageListeners).toHaveLength(0);
 
             // Verify callbacks are cleared
             const message = createRequest("id-1", "test", []);
-            const event = new MessageEvent("message", {
+            new MessageEvent("message", {
                 data: message,
                 origin: "https://example.com",
             });

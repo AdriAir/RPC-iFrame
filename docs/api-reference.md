@@ -38,11 +38,11 @@ Class-based equivalent of `expose`. Instantiate to start responding to RPC calls
 
 ### Parent Options (`ConnectOptions`)
 
-| Option             | Type     | Default      | Description                                                        |
-| ------------------ | -------- | ------------ | ------------------------------------------------------------------ |
-| `targetOrigin`     | `string` | **Required** | Expected origin of the child node. Use `'*'` only in development.  |
-| `handshakeTimeout` | `number` | `5000`       | Maximum time (ms) to wait for the handshake to complete.           |
-| `callTimeout`      | `number` | `10000`      | Maximum time (ms) to wait for each RPC call to return.             |
+| Option             | Type     | Default      | Description                                                       |
+| ------------------ | -------- | ------------ | ----------------------------------------------------------------- |
+| `targetOrigin`     | `string` | **Required** | Expected origin of the child node. Use `'*'` only in development. |
+| `handshakeTimeout` | `number` | `5000`       | Maximum time (ms) to wait for the handshake to complete.          |
+| `callTimeout`      | `number` | `10000`      | Maximum time (ms) to wait for each RPC call to return.            |
 
 ### Child Options (`ExposeOptions`)
 
@@ -58,12 +58,12 @@ iFrame-Connector is written in TypeScript and provides full type inference:
 
 ```typescript
 interface MyAPI {
-  getData(id: string): Promise<Data>;    // Valid — returns Promise
-  syncMethod(): string;                  // Invalid — must return Promise
+    getData(id: string): Promise<Data>; // Valid — returns Promise
+    syncMethod(): string; // Invalid — must return Promise
 }
 
 const { remote } = await connectIframe<MyAPI>(iframe, options);
 
-await remote.getData('123');       // Type-safe, autocomplete works
-await remote.unknownMethod();      // TypeScript error
+await remote.getData("123"); // Type-safe, autocomplete works
+await remote.unknownMethod(); // TypeScript error
 ```

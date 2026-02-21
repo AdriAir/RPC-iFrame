@@ -2,7 +2,7 @@
  * protocol.test.ts - Tests for wire protocol types and message factories
  */
 
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import {
     IFC_BRAND,
     isProtocolMessage,
@@ -20,7 +20,13 @@ describe("protocol.ts", () => {
             const validMessages = [
                 { __ifc: IFC_BRAND, type: "handshake-request", nonce: "123" },
                 { __ifc: IFC_BRAND, type: "handshake-response", nonce: "456" },
-                { __ifc: IFC_BRAND, type: "request", id: "1", method: "test", args: [] },
+                {
+                    __ifc: IFC_BRAND,
+                    type: "request",
+                    id: "1",
+                    method: "test",
+                    args: [],
+                },
                 { __ifc: IFC_BRAND, type: "response", id: "1", result: "ok" },
                 { __ifc: IFC_BRAND, type: "error", id: "1", error: "fail" },
             ];
@@ -151,10 +157,15 @@ describe("protocol.ts", () => {
         });
 
         it("should use crypto.randomUUID when available", () => {
-            if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+            if (
+                typeof crypto !== "undefined" &&
+                typeof crypto.randomUUID === "function"
+            ) {
                 const id = generateId();
                 // UUIDs have a specific format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-                expect(id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);
+                expect(id).toMatch(
+                    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
+                );
             }
         });
 

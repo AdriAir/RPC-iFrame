@@ -9,10 +9,10 @@ Both nodes **must** specify the expected origin. This prevents:
 
 ```typescript
 // Insecure — accepts any origin
-expose(api, { allowedOrigin: '*' });
+expose(api, { allowedOrigin: "*" });
 
 // Secure — only the trusted parent can call
-expose(api, { allowedOrigin: 'https://trusted-parent.com' });
+expose(api, { allowedOrigin: "https://trusted-parent.com" });
 ```
 
 ## Method Exposure Limits
@@ -25,7 +25,7 @@ await remote.toString();
 await remote.constructor();
 
 // Allowed — only explicitly exposed methods
-await remote.greet('World');
+await remote.greet("World");
 ```
 
 ## Error Sanitization

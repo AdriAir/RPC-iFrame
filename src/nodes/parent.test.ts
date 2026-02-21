@@ -8,7 +8,6 @@ import {
     createHandshakeResponse,
     createResponse,
     createError,
-    IFC_BRAND,
 } from "../core/protocol";
 
 describe("parent.ts", () => {
