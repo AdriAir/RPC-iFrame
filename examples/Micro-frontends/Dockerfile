@@ -10,8 +10,8 @@ FROM node:22-alpine
 ARG APP_DIR
 WORKDIR /app
 COPY --from=lib-builder /lib/rpc-iframe-*.tgz /tmp/rpc-iframe.tgz
-COPY examples/iFrameConnector_Example/${APP_DIR}/package.json ./
+COPY examples/Micro-frontends/${APP_DIR}/package.json ./
 RUN npm install /tmp/rpc-iframe.tgz && npm install
-COPY examples/iFrameConnector_Example/${APP_DIR}/ ./
+COPY examples/Micro-frontends/${APP_DIR}/ ./
 EXPOSE 5173
 CMD ["npx", "vite", "--host", "0.0.0.0"]

@@ -1,5 +1,5 @@
 /**
- * parent.ts - Parent side of iFrameConnector
+ * parent.ts - Parent side of RPC-iFrame
  *
  * Provides `IframeConnection` class and `connectIframe()` factory for
  * establishing a connection to a child iframe that has called `expose()`.

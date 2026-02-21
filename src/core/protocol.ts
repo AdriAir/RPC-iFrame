@@ -69,7 +69,7 @@ export type ProtocolMessage =
 // Type guard
 // ---------------------------------------------------------------------------
 
-/** Returns true if `data` is a message produced by iFrameConnector. */
+/** Returns true if `data` is a message produced by RPC-iFrame. */
 export function isProtocolMessage(data: unknown): data is ProtocolMessage {
     return (
         typeof data === "object" &&

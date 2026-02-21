@@ -1,5 +1,5 @@
 /**
- * types.ts - Public type definitions for iFrameConnector
+ * types.ts - Public type definitions for RPC-iFrame
  *
  * Defines user-facing type contracts: API shape constraints, configuration
  * options for parent and child, and the remote proxy type.

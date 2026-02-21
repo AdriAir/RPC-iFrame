@@ -55,12 +55,12 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/AdriAir/iFrameConnector.git"
+        "url": "https://github.com/AdriAir/RPC-iFrame.git"
     },
     "bugs": {
-        "url": "https://github.com/AdriAir/iFrameConnector/issues"
+        "url": "https://github.com/AdriAir/RPC-iFrame/issues"
     },
-    "homepage": "https://github.com/AdriAir/iFrameConnector#readme",
+    "homepage": "https://github.com/AdriAir/RPC-iFrame#readme",
     "devDependencies": {
         "@eslint/js": "^10.0.1",
         "@vitest/coverage-v8": "^4.0.18",

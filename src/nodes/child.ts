@@ -1,5 +1,5 @@
 /**
- * child.ts - Child iframe side of iFrameConnector
+ * child.ts - Child iframe side of RPC-iFrame
  *
  * Provides `IframeExposed` class and `expose()` factory for registering
  * callable methods for the parent frame.

@@ -1,5 +1,5 @@
 /**
- * iFrameConnector - Public API
+ * RPC-iFrame - Public API
  *
  * This is the single entry point for the library. It re-exports everything
  * a consumer needs:

@@ -93,8 +93,8 @@ Check the full [Roadmap](docs/roadmap.md) for details.
 
 Contributions are welcome. Open a PR or file an issue.
 
-**Repository:** [github.com/AdriAir/iFrameConnector](https://github.com/AdriAir/iFrameConnector)
-**Issues:** [github.com/AdriAir/iFrameConnector/issues](https://github.com/AdriAir/iFrameConnector/issues)
+**Repository:** [github.com/AdriAir/RPC-iFrame](https://github.com/AdriAir/RPC-iFrame)
+**Issues:** [github.com/AdriAir/RPC-iFrame/issues](https://github.com/AdriAir/RPC-iFrame/issues)
 
 ## License
 

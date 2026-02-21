@@ -2,7 +2,7 @@ services:
   host:
     build:
       context: ../..
-      dockerfile: examples/iFrameConnector_Example/Dockerfile
+      dockerfile: examples/Micro-frontends/Dockerfile
       args:
         APP_DIR: host
     ports:
@@ -11,7 +11,7 @@ services:
   child-a:
     build:
       context: ../..
-      dockerfile: examples/iFrameConnector_Example/Dockerfile
+      dockerfile: examples/Micro-frontends/Dockerfile
       args:
         APP_DIR: child-a
     ports:
@@ -20,7 +20,7 @@ services:
   child-b:
     build:
       context: ../..
-      dockerfile: examples/iFrameConnector_Example/Dockerfile
+      dockerfile: examples/Micro-frontends/Dockerfile
       args:
         APP_DIR: child-b
     ports:
@@ -29,7 +29,7 @@ services:
   child-c:
     build:
       context: ../..
-      dockerfile: examples/iFrameConnector_Example/Dockerfile
+      dockerfile: examples/Micro-frontends/Dockerfile
       args:
         APP_DIR: child-c
     ports:
@@ -38,7 +38,7 @@ services:
   child-d:
     build:
       context: ../..
-      dockerfile: examples/iFrameConnector_Example/Dockerfile
+      dockerfile: examples/Micro-frontends/Dockerfile
       args:
         APP_DIR: child-d
     ports:
@@ -47,7 +47,7 @@ services:
   child-e:
     build:
       context: ../..
-      dockerfile: examples/iFrameConnector_Example/Dockerfile
+      dockerfile: examples/Micro-frontends/Dockerfile
       args:
         APP_DIR: child-e
     ports:
@@ -56,7 +56,7 @@ services:
   child-f:
     build:
       context: ../..
-      dockerfile: examples/iFrameConnector_Example/Dockerfile
+      dockerfile: examples/Micro-frontends/Dockerfile
       args:
         APP_DIR: child-f
     ports:
