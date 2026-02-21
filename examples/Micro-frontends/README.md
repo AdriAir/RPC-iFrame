@@ -4,15 +4,15 @@ A realistic example demonstrating RPC-style communication between 7 independent 
 
 ## Architecture
 
-| Service   | Role             | Port  |
-| --------- | ---------------- | ----- |
-| **host**  | Parent orchestrator | 5173 |
-| child-a   | Color Generator  | 5174  |
-| child-b   | Greeter          | 5175  |
-| child-c   | Counter          | 5176  |
-| child-d   | Notifier         | 5177  |
-| child-e   | Logger           | 5178  |
-| child-f   | Status Board     | 5179  |
+| Service   | Role                | Port  |
+| --------- | ------------------- | ----- |
+| **host**  | Parent orchestrator | 5173  |
+| child-a   | Color Generator     | 5174  |
+| child-b   | Greeter             | 5175  |
+| child-c   | Counter             | 5176  |
+| child-d   | Notifier            | 5177  |
+| child-e   | Logger              | 5178  |
+| child-f   | Status Board        | 5179  |
 
 Each service runs on a different port, creating real cross-origin communication.
 
