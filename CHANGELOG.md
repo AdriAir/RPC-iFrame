@@ -27,6 +27,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dual-format build: ESM (`dist/index.js`) + CJS (`dist/index.cjs`) with TypeScript declarations
 - Unit tests with Vitest and happy-dom
 - Documentation: getting started, API reference, architecture, security, examples, compatibility, roadmap
-
-[0.2.0]: https://github.com/AdriAir/RPC-iFrame/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/AdriAir/RPC-iFrame/releases/tag/v0.1.0

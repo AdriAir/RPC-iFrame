@@ -29,7 +29,7 @@ That's it. No glue code, no message parsing, no `postMessage` boilerplate.
 
 Works in both TypeScript and vanilla JavaScript. Types are optional.
 
-> **v0.2.0 — Experimental.** API may change before v1.0. Not recommended for production without thorough testing.
+> **v0.X.X — Experimental.** API may change before v1.0. Not recommended for production without thorough testing.
 
 ## Use cases
 

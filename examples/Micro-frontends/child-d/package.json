@@ -10,6 +10,6 @@
         "vite": "^7.3.1"
     },
     "dependencies": {
-        "rpc-iframe": "0.2.0"
+        "rpc-iframe": "0.2.1"
     }
 }
